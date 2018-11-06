@@ -25,7 +25,7 @@
 	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:use-pool="true">
 	  	<property name="hostName" value="${redis.host}" />
 	    <property name="port" value="${redis.port}" />
-	    <property name="password" value="${redis.pass}" />
+	   <!--  <property name="password" value="${redis.pass}" /> -->
 	    <property name="poolConfig" ref="poolConfig" />
 	</bean>
 	<!-- redis template spring官方

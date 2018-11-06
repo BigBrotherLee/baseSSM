@@ -62,6 +62,8 @@
 
 ## **spring还是依赖aspectjwaver包长见识了，我一直以为它脱离了** 
 
+## **添加redis**mybatis-redis-1.00beta2不支持jedis2.9*，而spring-data-redis-1.8及其以后的版本不支持jedis2.8，spring-data-redis依赖spring-data-commons
+
 
 
 
