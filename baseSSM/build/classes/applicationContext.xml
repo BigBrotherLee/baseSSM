@@ -13,8 +13,36 @@
 	        http://www.springframework.org/schema/aop/spring-aop.xsd
 	        http://www.springframework.org/schema/tx
 	        http://www.springframework.org/schema/tx/spring-tx.xsd"><!-- 这是完整约束，以后复制就好 -->
+	<!-- 加载多个属性文件要ignore-resource-not-found="true" -->
+	<context:property-placeholder location="classpath:db.properties,classpath:redis.properties" ignore-resource-not-found="true"/>
+	<!-- spring-redis -->
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+	    <property name="maxTotal" value="${redis.maxActive}" />
+	    <property name="maxWaitMillis" value="${redis.maxWait}" />
+	    <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:use-pool="true">
+	  	<property name="hostName" value="${redis.host}" />
+	    <property name="port" value="${redis.port}" />
+	    <property name="password" value="${redis.pass}" />
+	    <property name="poolConfig" ref="poolConfig" />
+	</bean>
+	<!-- redis template spring官方
+			注意：
+			使用：
+				首先：//注入模板
+					    @Autowired
+					    private RedisTemplate<String, String> template;
+				方式一：你可是使用@Resource(name="redisTemplate")注解将模板数据与属性绑定
+				方式二：public void addLink(String userId, URL url) {
+     					   listOps.leftPush(userId, url.toExternalForm());
+       					 	// or use template directly
+        					redisTemplate.boundListOps(userId).leftPush(url.toExternalForm());
+    					}//直接使用模板
+	-->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory"/>
 	
-	<context:property-placeholder location="classpath:db.properties"/>
 	<!-- 配置c3p0连接池，数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${jdbc.driver}"></property>

@@ -9,7 +9,10 @@
 	        http://www.springframework.org/schema/context/spring-context.xsd
 	        http://www.springframework.org/schema/mvc
        	   http://www.springframework.org/schema/mvc/spring-mvc.xsd"><!-- 这是包括SpringMVC的配置 -->
-       	   
+       	   <!-- 静态资源配置 -->
+       	   <!-- <mvc:default-servlet-handler /> --><!-- 方式一 -->
+       	   <mvc:resources location="/static/" mapping="/static/**"/><!-- 方式二 -->
+       	   <mvc:resources location="/js/" mapping="/js/**"/><!-- 方式二 -->
        	   
        	   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/><!-- 配置视图处理器 -->
        	   <!-- 多部件视图解析器 -->
